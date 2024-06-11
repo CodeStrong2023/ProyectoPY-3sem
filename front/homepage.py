@@ -7,7 +7,7 @@ st.set_page_config(
 )
 st.sidebar.page_link('homepage.py', label='Inicio')
 st.sidebar.page_link('pages/pagEmpleado.py', label='Empleado')
-st.sidebar.page_link('pages/pagCliente.py', label='Cliente')
+st.sidebar.page_link('pages/SpagCliente.py', label='Cliente')
 
 
 st.title('BIENVENIDOS AL ESTACIONAMIENTO DE BUGBUSTERS')
@@ -22,4 +22,4 @@ if role == None:
 elif role == 'Empleado':
     st.switch_page('pages/pagEmpleado.py')
 else:
-    st.switch_page('pages/pagCliente.py')
+    st.switch_page('pages/SpagCliente.py')

@@ -14,14 +14,14 @@ choice = st.selectbox('LogIn/SingUp', ['LogIn', 'SignUp'])
 
 if choice == 'LogIn':
     with st.form(key='empleadoLogIn'):
-        nombreUsuario = st.text_input('Nombre de usuario'),
+        correo = st.text_input('Correo'),
         contrasenia = st.text_input('Contraseña', type='password'),
         st.form_submit_button("Log In")
 else:
     with st.form(key='empleadoSignUp'):
         nombre = st.text_input('Nombre/s'),
         apellido = st.text_input('Apellido/s'),
-        genero = st.selectbox('Seleccione su genero', [None, 'Masculino', 'Femenino', 'Otro']),
+        telefono = st.text_input('Telefono'),
         email = st.text_input('Introduce tu e-mail'),
         contrasenia = st.text_input('Introduce una constraseña', type ='password'),
         st.form_submit_button("Sign Up")
