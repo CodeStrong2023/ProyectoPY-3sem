@@ -1,2 +1,4 @@
 streamlit
 psycopg2
+sqlalchemy
+pandas
