@@ -30,6 +30,6 @@ class Vehiculo(Base):
     telefono_cliente = Column(String(20))
     hora_entrada = Column(DateTime)
     hora_salida = Column(DateTime)
-    espacio_id = Column(Integer, ForeignKey('estacionamientos.espacio'))
+    espacio_id = Column(Integer, ForeignKey('estacionamiento.espacio'))
     estacionamiento = relationship("Estacionamiento", back_populates="vehiculos")
 

@@ -3,9 +3,9 @@ import numpy as np
 import pandas as pd
 
 def pagcliente():
-    st.set_page_config(
-        page_title="Cliente"
-    )
+    # st.set_page_config(
+    #     page_title="Cliente"
+    # )
 
     st.title('ESTACIONAMIENTO :blue[BUGBUSTERS]👻')
     st.subheader('Cliente')

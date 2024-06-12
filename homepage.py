@@ -2,6 +2,7 @@ import streamlit as st
 from front.pagEmpleado import pagEmpleado
 from front.SpagCliente import pagcliente
 
+
 st.set_page_config(
     page_title= "Inicio"
 )
@@ -18,4 +19,4 @@ if role == 'Cliente':
 elif role == 'Empleado':
     pagEmpleado()
 else:
-        pass
+    pass
