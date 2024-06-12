@@ -45,7 +45,6 @@ with col1:
         t1 = st.time_input(label='Desde las:', value=None)
         t2 = st.time_input(label='Hasta las:', value=None)
         st.write(f'Usted va a quedarse desde las: {t1}, hasta las: {t2}')
-        espacio = st.number_input(label='Por favor, elija un lugar de estacionamiento (1-20):', min_value=1, max_value=20)
         st.form_submit_button('Registrar vehiculo')
 
     # Mostrar los espacios de estacionamiento en la interfaz
@@ -77,3 +76,4 @@ with col2:
         },
         hide_index= True,
     )
+

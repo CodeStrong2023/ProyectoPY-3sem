@@ -3,14 +3,11 @@ import streamlit as st
 st.set_page_config(
     page_title= "Empleado"
 )
-st.sidebar.page_link('homepage.py', label='Inicio')
-st.sidebar.page_link('pages/pagEmpleado.py', label='Empleado')
-
 
 st.title('ESTACIONAMIENTO :blue[BUGBUSTERS]👻')
 st.subheader('Empleado')
 
-choice = st.selectbox('LogIn/SingUp', ['LogIn', 'SignUp'])
+choice = st.selectbox('Log In/Sing Up', ['Log In', 'Sign Up'])
 
 if choice == 'LogIn':
     with st.form(key='empleadoLogIn'):

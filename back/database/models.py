@@ -12,17 +12,14 @@ class Empleado(Base):
     apellido = Column(String(50))
     correo = Column(String(100))
     contrasena = Column(String(50))
-    estacionamientos = relationship("Estacionamiento", back_populates="empleado")
 
 
 class Estacionamiento(Base):
-    __tablename__ = 'estacionamientos'
+    __tablename__ = 'estacionamiento'
 
     espacio = Column(Integer, primary_key=True)
     disponibilidad = Column(Boolean)
-    empleado_id = Column(Integer, ForeignKey('empleados.id'))
-    empleado = relationship("Empleado", back_populates="estacionamientos")
-    vehiculos = relationship("Vehiculo", back_populates="estacionamiento")
+    vehiculos = relationship("Vehiculo", back_populates="estacionamiento", uselist=False);
 
 
 class Vehiculo(Base):
