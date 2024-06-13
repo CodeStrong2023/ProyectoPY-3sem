@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import declarative_base
 
 Base = declarative_base()
 
@@ -11,7 +11,7 @@ class Empleado(Base):
     nombre = Column(String(50))
     apellido = Column(String(50))
     correo = Column(String(100))
-    contrasena = Column(String(50))
+    contrasena = Column(String(255))
 
 
 class Estacionamiento(Base):
