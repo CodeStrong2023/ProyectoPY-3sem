@@ -4,7 +4,7 @@ from front.SpagCliente import pagcliente
 
 
 st.set_page_config(
-    page_title= "Inicio"
+    page_title= "Estacionamiento BugBusters"
 )
 
 st.title('BIENVENIDOS AL ESTACIONAMIENTO DE BUGBUSTERS')

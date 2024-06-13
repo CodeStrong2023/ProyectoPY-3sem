@@ -1,13 +1,9 @@
 import streamlit as st
-from back.crud import obtener_empleado_correo, crear_empleado, verificar_empleado_registrado, correo_valido, \
-    encriptar_contrasenia
+from back.logica import crear_empleado, verificar_empleado_registrado, correo_valido, \
+    encriptar_contrasenia, obtener_empleado_by_correo
 from database.create_database import session
 
 def pagEmpleado():
-    # st.set_page_config(
-    #     page_title= "Empleado"
-    # )
-
     st.title('ESTACIONAMIENTO :blue[BUGBUSTERS]👻')
     st.subheader('Empleado')
 
@@ -46,7 +42,7 @@ def pagEmpleado():
                 elif not correo_valido(email):
                     st.error("El correo no es válido")
                 else:
-                    empleado_registrado = obtener_empleado_correo(session, email) # Obtiene el registro de la bd
+                    empleado_registrado = obtener_empleado_by_correo(session, email) # Obtiene el registro de la bd
                     if empleado_registrado: # Si hay algun registro con ese correo en la bd:
                         st.error("El correo ya está registrado a otro empleado")
                     else: # Si no hay registro con ese correo, crea un nuevo empleado
@@ -55,5 +51,4 @@ def pagEmpleado():
                         st.success("Registro exitoso")
 
 
-    # if st.button("Volver a inicio"):
 

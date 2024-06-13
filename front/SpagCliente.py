@@ -3,10 +3,6 @@ import numpy as np
 import pandas as pd
 
 def pagcliente():
-    # st.set_page_config(
-    #     page_title="Cliente"
-    # )
-
     st.title('ESTACIONAMIENTO :blue[BUGBUSTERS]👻')
     st.subheader('Cliente')
 
@@ -51,8 +47,6 @@ def pagcliente():
         # Mostrar los espacios de estacionamiento en la interfaz
         # mostrar_estacionamiento(espacios_estacionamiento)
 
-        if st.button("Volver a inicio"):
-            st.switch_page('homepage.py')
 
     with col2:
 
