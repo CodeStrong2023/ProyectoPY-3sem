@@ -1,9 +1,9 @@
 import streamlit as st
-import numpy as np
 from datetime import datetime
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
+from back.logica import verificar_disponibilidad, verificar_horario
 from database.create_database import session
 from database.models import Vehiculo
 
@@ -12,7 +12,7 @@ if 'selected_space' not in st.session_state:
     st.session_state.selected_space = None
 
 def get_session():
-    DATABASE_URL = "postgresql://postgres:admin@localhost/estacionamiento"
+    DATABASE_URL = "postgresql://postgres:1234@localhost/estacionamiento"
     engine = create_engine(DATABASE_URL)
     Session = sessionmaker(bind=engine)
     return Session()
@@ -45,6 +45,16 @@ def pagcliente():
                 st.error('Por favor, seleccione un espacio de estacionamiento.')
                 return
 
+            overlap = verificar_horario(selected_space, hora_entrada_dt, hora_salida_dt)
+            if overlap:
+                st.error('El espacio seleccionado está ocupado en el horario solicitado.')
+                return
+
+            disponibilidad = verificar_disponibilidad(selected_space)
+            if not disponibilidad:
+                st.error('El espacio seleccionado no está disponible.')
+                return
+
             vehiculo = Vehiculo(
                 patente=patente,
                 marca_modelo=marca,
@@ -59,6 +69,9 @@ def pagcliente():
             session.commit()
             st.success('Vehículo registrado exitosamente')
 
+            disponibilidad.disponibilidad = False # se actualiza la disponibilidad en la bd
+            session.commit()
+
     with col2:
         # Mostrar los espacios de estacionamiento y permitir al usuario seleccionar uno
         st.write('Seleccione el número de estacionamiento:')
@@ -69,4 +82,3 @@ def pagcliente():
             st.session_state.selected_space = selected_station
             st.success(f'Se ha seleccionado el estacionamiento número: {selected_station}')
 
-pagcliente()

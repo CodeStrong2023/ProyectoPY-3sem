@@ -1,7 +1,9 @@
-from database.models import Empleado
+from database.create_database import session
+from database.models import Empleado, Estacionamiento, Vehiculo
 import re
 import bcrypt
 
+# Lógica para formulario de log in y sign up
 def correo_valido(correo): # Verifica que el formato del correo sea valido
     regex = r'^\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
     return re.match(regex, correo)
@@ -30,3 +32,21 @@ def encriptar_contrasenia(contrasenia): # Encripta la contraseña para guardarla
 def verificar_contrasenia(contrasenia, contrasenia_encriptada): # Verifica la contraseña encriptada
     resultado = bcrypt.checkpw(contrasenia.encode('UTF-8'), contrasenia_encriptada) # Compara la contraseña dada con la contraseña encriptada en la bd
     return resultado
+
+
+# Lógica para registrar vehiculo
+
+def verificar_disponibilidad(selected_space): # Verifica si el atributo disponibilidad esta en true o false (ocupado o no)
+    espacio_disponible = session.query(Estacionamiento).filter(
+        Estacionamiento.espacio == selected_space,
+        Estacionamiento.disponibilidad == True
+    ).first()
+    return espacio_disponible
+
+def verificar_horario(selected_space, hora_entrada_dt, hora_salida_dt): # verifica si el espacio esta ocupado en las horas solicitadas
+    overlap = session.query(Vehiculo).filter(
+        Vehiculo.espacio_id == selected_space,
+        Vehiculo.hora_salida > hora_entrada_dt,
+        Vehiculo.hora_entrada < hora_salida_dt
+    ).first()
+    return overlap
