@@ -25,6 +25,7 @@ class Estacionamiento(Base):
 class Vehiculo(Base):
     __tablename__ = 'vehiculos'
 
+
     patente = Column(String(10), primary_key=True)
     marca_modelo = Column(String(100))
     telefono_cliente = Column(String(20))
@@ -32,4 +33,5 @@ class Vehiculo(Base):
     hora_salida = Column(DateTime)
     espacio_id = Column(Integer, ForeignKey('estacionamiento.espacio'))
     estacionamiento = relationship("Estacionamiento", back_populates="vehiculos")
+    nombre = Column(String(50))
 
