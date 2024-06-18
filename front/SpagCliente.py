@@ -38,6 +38,11 @@ def pagcliente():
 
         if submit_button:
             hoy = datetime.now().date()
+
+            if t1 is None or t2 is None:
+                st.error('Por favor, introduzca tanto la hora de entrada como la hora de salida.')
+                return
+
             hora_entrada_dt = datetime.combine(hoy, t1)
             hora_salida_dt = datetime.combine(hoy, t2)
             selected_space = st.session_state.get('selected_space')
