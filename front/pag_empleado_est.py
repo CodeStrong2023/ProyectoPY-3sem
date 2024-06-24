@@ -1,7 +1,7 @@
 import streamlit as st
-from sqlalchemy.orm import sessionmaker
 from database.create_database import session
 from database.models import Estacionamiento, Vehiculo, Cliente
+
 
 
 def liberar_espacio(espacio_id):
@@ -14,6 +14,7 @@ def liberar_espacio(espacio_id):
     if espacio:
         espacio.disponibilidad = True
         session.commit()
+
 
 def pag_empleado_est():
     estacionamientos = session.query(Estacionamiento).all()

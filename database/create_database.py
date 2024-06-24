@@ -4,7 +4,7 @@ from sqlalchemy.orm import declarative_base
 from database.models import Base, Estacionamiento
 
 #conexión a la base de datos
-DATABASE_URL = "postgresql://postgres:Radiomipasion1@localhost/estacionamiento"
+DATABASE_URL = "postgresql://postgres:1234@localhost/estacionamiento"
 engine = create_engine(DATABASE_URL)
 
 #crea las tablas en la base de datos

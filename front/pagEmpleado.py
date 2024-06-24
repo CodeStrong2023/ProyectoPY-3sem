@@ -2,22 +2,31 @@ import streamlit as st
 from back.logica import crear_empleado, verificar_empleado_registrado, correo_valido, \
     encriptar_contrasenia, obtener_empleado_by_correo
 from database.create_database import session
-from front.pag_empleado_est import liberar_espacio, pag_empleado_est
-from database.models import Estacionamiento, Vehiculo, Cliente
+from front.pag_empleado_est import pag_empleado_est
 
 def pagEmpleado():
     st.title('ESTACIONAMIENTO :blue[BUGBUSTERS]👻')
     st.subheader('Empleado')
+    if 'logged_in' in st.experimental_get_query_params():
+        pag_empleado_est()
+        st.stop()  # Para evitar que se siga ejecutando el resto del código de la página
+
+    login_status = False
 
     choice = st.selectbox('Log in/sign up', ['Log In', 'Sign Up'])
     if choice == 'Log In':
-        if login():
-            pag_empleado_est()
+        login_status = login()
+
     elif choice == 'Sign Up':
         signup()
 
+    if login_status:
+        st.experimental_set_query_params(logged_in=True)  # Parámetro para indicar que el usuario ha iniciado sesión
+        st.experimental_rerun()  # Rerun the app with the new query parameters
 
-def login():    
+
+def login():
+    login = False
     with st.form(key='empleadoLogIn'):
         correo = st.text_input('Correo')
         contrasenia = st.text_input('Contraseña', type='password')
@@ -32,10 +41,11 @@ def login():
                 usuario = verificar_empleado_registrado(session, correo, contrasenia) # Verifica los datos del empleado registrado
                 if usuario:
                     st.success("Inicio de sesión exitoso")
-                    return True
+                    login = True
                 else:
                     st.error("Correo o contraseña incorrectos")
-        
+    return login
+
 def signup():
     with st.form(key='empleadoSignUp'):
         nombre = st.text_input('Nombre/s')
@@ -57,6 +67,3 @@ def signup():
                     sal, contrasenia_encriptada = encriptar_contrasenia(contrasenia)
                     crear_empleado(session, nombre, apellido, email, contrasenia_encriptada)
                     st.success("Registro exitoso")
-
-
-
