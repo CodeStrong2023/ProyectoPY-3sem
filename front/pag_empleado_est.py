@@ -36,3 +36,4 @@ def pag_empleado_est():
                 liberar_button = st.button(f'Liberar Espacio {espacio.espacio}', key=f'liberar_{espacio.espacio}')
                 if liberar_button:
                     liberar_espacio(espacio.espacio)
+                    st.rerun()

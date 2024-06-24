@@ -25,7 +25,7 @@ def pagcliente():
         with st.form(key='clienteLogIn'):
             nombre = st.text_input('Nombre')
             telefono = st.text_input('Teléfono')
-            patente = st.text_input('Ingrese el número de patente')
+            patente = st.text_input('Ingrese el número de patente').upper()
             marca = st.text_input('¿Qué modelo es su vehículo?')
             st.write('Introduzca las horas de estacionamiento')
             t1 = st.time_input(label='Desde las:', value=None)

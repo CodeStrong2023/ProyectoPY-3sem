@@ -7,9 +7,10 @@ from front.pag_empleado_est import pag_empleado_est
 def pagEmpleado():
     st.title('ESTACIONAMIENTO :blue[BUGBUSTERS]👻')
     st.subheader('Empleado')
+
     if 'logged_in' in st.experimental_get_query_params():
         pag_empleado_est()
-        st.stop()  # Para evitar que se siga ejecutando el resto del código de la página
+        st.stop()
 
     login_status = False
 
@@ -21,9 +22,8 @@ def pagEmpleado():
         signup()
 
     if login_status:
-        st.experimental_set_query_params(logged_in=True)  # Parámetro para indicar que el usuario ha iniciado sesión
-        st.experimental_rerun()  # Rerun the app with the new query parameters
-
+        st.experimental_set_query_params(logged_in=True)
+        st.experimental_rerun()
 
 def login():
     login = False
