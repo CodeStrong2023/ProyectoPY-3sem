@@ -1,22 +1,13 @@
 import streamlit as st
 from datetime import datetime
-from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-
-from back.logica import verificar_disponibilidad, verificar_horario
 from database.create_database import session
-from database.models import Vehiculo
-
+from database.models import Vehiculo, Estacionamiento, Cliente
+from back.logica import verificar_disponibilidad, verificar_horario
 
 # Inicializar st.session_state
 if 'selected_space' not in st.session_state:
     st.session_state.selected_space = None
-
-def get_session():
-    DATABASE_URL = "postgresql://postgres:admin@localhost/estacionamiento"
-    engine = create_engine(DATABASE_URL)
-    Session = sessionmaker(bind=engine)
-    return Session()
 
 def pagcliente():
     st.title('ESTACIONAMIENTO :blue[BUGBUSTERS]👻')
@@ -24,11 +15,16 @@ def pagcliente():
 
     col1, col2 = st.columns(spec=[2, 1], gap="large")
 
+    if session.query(Estacionamiento).count() == 0:
+        for i in range(1, 21):
+            espacio = Estacionamiento(espacio=i, disponibilidad=True)
+            session.add(espacio)
+        session.commit()
+
     with col1:
-        # Formulario de registro de vehículo
         with st.form(key='clienteLogIn'):
             nombre = st.text_input('Nombre')
-            Telefono = st.text_input('Teléfono')
+            telefono = st.text_input('Teléfono')
             patente = st.text_input('Ingrese el número de patente')
             marca = st.text_input('¿Qué modelo es su vehículo?')
             st.write('Introduzca las horas de estacionamiento')
@@ -38,14 +34,23 @@ def pagcliente():
                 st.write(f'Usted va a quedarse desde las: {t1}, hasta las: {t2}')
             submit_button = st.form_submit_button('Registrar vehiculo')
 
-            # Validar si todos los campos del formulario están completos
-            form_complete = nombre != "" and Telefono != "" and patente != "" and marca != "" and t1 is not None and t2 is not None
+            form_complete = nombre != "" and telefono != "" and patente != "" and marca != "" and t1 is not None and t2 is not None
 
             if submit_button and form_complete:
                 hoy = datetime.now().date()
+                ahora = datetime.now().time()
 
                 hora_entrada_dt = datetime.combine(hoy, t1)
                 hora_salida_dt = datetime.combine(hoy, t2)
+
+                if t1 < ahora:
+                    st.error('La hora de entrada no puede ser menor a la hora actual.')
+                    return
+
+                if t2 <= t1:
+                    st.error('La hora de salida no puede ser menor o igual a la hora de entrada.')
+                    return
+
                 selected_space = st.session_state.get('selected_space')
                 if not selected_space:
                     st.error('Por favor, seleccione un espacio de estacionamiento.')
@@ -61,13 +66,21 @@ def pagcliente():
                     st.error('El espacio seleccionado no está disponible.')
                     return
 
+                cliente = session.query(Cliente).filter_by(nombre=nombre).first()
+                if not cliente:
+                    cliente = Cliente(
+                        nombre=nombre,
+                        telefono_cliente=telefono)
+                    session.add(cliente)
+                    session.commit()
+                    session.refresh(cliente)
+
                 vehiculo = Vehiculo(
                     patente=patente,
                     marca_modelo=marca,
-                    telefono_cliente=Telefono,
                     hora_entrada=hora_entrada_dt,
                     hora_salida=hora_salida_dt,
-                    nombre=nombre,
+                    cliente_id=cliente.id,
                     espacio_id=selected_space
                 )
 
@@ -75,19 +88,17 @@ def pagcliente():
                 session.commit()
                 st.success('Vehículo registrado exitosamente')
 
-                disponibilidad.disponibilidad = False  # se actualiza la disponibilidad en la bd
+                espacio = session.query(Estacionamiento).filter_by(espacio=selected_space).first()
+                espacio.disponibilidad = False
+                session.commit()
 
             elif submit_button and not form_complete:
                 st.error("Por favor complete todos los campos del formulario.")
 
     with col2:
-        # Mostrar los espacios de estacionamiento y permitir al usuario seleccionar uno
         st.write('Seleccione el número de estacionamiento:')
         selected_station = st.radio('Estacionamientos', options=list(range(1, 21)))
 
-        # Actualizar st.session_state.selected_space cuando se seleccione un espacio
         if st.button('Seleccionar'):
             st.session_state.selected_space = selected_station
             st.success(f'Se ha seleccionado el estacionamiento número: {selected_station}')
-
-
