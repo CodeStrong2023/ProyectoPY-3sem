@@ -42,7 +42,6 @@ def login():
             else:
                 usuario = verificar_empleado_registrado(session, correo, contrasenia) # Verifica los datos del empleado registrado
                 if usuario:
-                    st.success("Inicio de sesión exitoso")
                     login = True
                 else:
                     st.error("Correo o contraseña incorrectos")
