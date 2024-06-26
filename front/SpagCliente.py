@@ -110,7 +110,6 @@ def pagcliente():
             st.session_state.selected_space = selected_station
             st.success(f'Se ha seleccionado el estacionamiento número: {selected_station}')
 
-    # Agregar el contador regresivo
     if 't2' in st.session_state and st.session_state.t2 is not None:
         ahora = datetime.now()
         t2 = datetime.combine(ahora.date(), st.session_state.t2)
@@ -122,7 +121,6 @@ def pagcliente():
             tiempo_formateado = f"{horas:02}:{minutos:02}:{segundos:02}"
             st.write(f'Tiempo restante: {tiempo_formateado}')
 
-            # Refrescar la página cada segundo
             st_autorefresh(interval=1000, key='contador_autorefresh')
         else:
             st.write('Tu tiempo en nuestro estacionamiento concluyó.')
