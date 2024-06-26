@@ -1,13 +1,17 @@
 import streamlit as st
-from datetime import datetime
+from datetime import datetime, timedelta
 from sqlalchemy.orm import sessionmaker
 from database.create_database import session
 from database.models import Vehiculo, Estacionamiento, Cliente
 from back.logica import verificar_disponibilidad, verificar_horario
+from streamlit_autorefresh import st_autorefresh
 
 # Inicializar st.session_state
 if 'selected_space' not in st.session_state:
     st.session_state.selected_space = None
+
+if 't2' not in st.session_state:
+    st.session_state.t2 = None
 
 def pagcliente():
     st.title('ESTACIONAMIENTO :blue[BUGBUSTERS]👻')
@@ -92,6 +96,9 @@ def pagcliente():
                 espacio.disponibilidad = False
                 session.commit()
 
+                # Guardar t2 en st.session_state para el contador
+                st.session_state.t2 = t2
+
             elif submit_button and not form_complete:
                 st.error("Por favor complete todos los campos del formulario.")
 
@@ -102,3 +109,20 @@ def pagcliente():
         if st.button('Seleccionar'):
             st.session_state.selected_space = selected_station
             st.success(f'Se ha seleccionado el estacionamiento número: {selected_station}')
+
+    # Agregar el contador regresivo
+    if 't2' in st.session_state and st.session_state.t2 is not None:
+        ahora = datetime.now()
+        t2 = datetime.combine(ahora.date(), st.session_state.t2)
+
+        if ahora < t2:
+            tiempo_restante = t2 - ahora
+            horas, resto = divmod(tiempo_restante.seconds, 3600)
+            minutos, segundos = divmod(resto, 60)
+            tiempo_formateado = f"{horas:02}:{minutos:02}:{segundos:02}"
+            st.write(f'Tiempo restante: {tiempo_formateado}')
+
+            # Refrescar la página cada segundo
+            st_autorefresh(interval=1000, key='contador_autorefresh')
+        else:
+            st.write('Tu tiempo en nuestro estacionamiento concluyó.')
