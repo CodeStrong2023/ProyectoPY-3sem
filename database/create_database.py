@@ -1,10 +1,13 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy.orm import declarative_base
 from database.models import Base, Estacionamiento
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 #conexión a la base de datos
-DATABASE_URL = "postgresql://postgres:1234@localhost/estacionamiento"
+DATABASE_URL = os.getenv('DATABASE_URL')
 engine = create_engine(DATABASE_URL)
 
 #crea las tablas en la base de datos
