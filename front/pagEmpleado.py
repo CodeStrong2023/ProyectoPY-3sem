@@ -8,7 +8,9 @@ def pagEmpleado():
     st.title('ESTACIONAMIENTO :blue[BUGBUSTERS]👻')
     st.subheader('Empleado')
 
-    if 'logged_in' in st.experimental_get_query_params():
+    query_params = st.query_params
+
+    if 'logged_in' in query_params:
         pag_empleado_est()
         st.stop()
 
@@ -22,7 +24,7 @@ def pagEmpleado():
         signup()
 
     if login_status:
-        st.experimental_set_query_params(logged_in=True)
+        query_params['logged_in'] = 'true'
         st.experimental_rerun()
 
 def login():
