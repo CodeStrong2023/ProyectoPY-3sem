@@ -17,7 +17,11 @@ Este proyecto está enfocado a un estacionamiento el cual posee una interfaz par
    
    ```pip install -r requirements.txt```
 
-5. Ejecuta el proyecto
+5. Crea la base de datos ```estacionamiento``` y luego ejecuta
+
+     ```python create_database.py``` para crear las tabalas
+
+7. Ejecuta el proyecto
 
    ```python -m streamlit run homepage.py```
 ### Tecnologías utilizadas 💻
