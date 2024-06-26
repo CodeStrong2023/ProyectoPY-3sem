@@ -4,7 +4,7 @@ Este proyecto está enfocado a un estacionamiento el cual posee una interfaz par
 ### Pasos para la ejecución ⚙️
 1. Clonar el repositorio.
 
-   ```git clone```
+   ```git clone https://github.com/CodeStrong2023/ProyectoPY-3sem.git```
 2. Moverse a la carpeta del proyecto.
    
     ```cd ProyectoPy-3sem```
