@@ -1,2 +1,5 @@
 streamlit
 psycopg2
+sqlalchemy
+streamlit_autorefresh
+bcrypt
