@@ -1,5 +1,5 @@
 streamlit
 psycopg2
 sqlalchemy
-pandas
+streamlit_autorefresh
 bcrypt
