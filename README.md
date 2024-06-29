@@ -17,13 +17,11 @@ Este proyecto está enfocado a un estacionamiento el cual posee una interfaz par
    
    ```pip install -r requirements.txt```
 
-5. Crea la base de datos ```estacionamiento``` y luego ejecuta
-
-     ```python create_database.py``` para crear las tabalas
-
-7. Ejecuta el proyecto
+5. Crea la base de datos ```estacionamiento``` en PostgreSQL y luego ejecuta:
 
    ```python -m streamlit run homepage.py```
+
+6. Disfruta nuestro poryecto.   
 ### Tecnologías utilizadas 💻
 - Python
 - Streamlit
